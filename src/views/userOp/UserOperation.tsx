@@ -28,6 +28,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginModal from '@/components/global/LoginModal';
 import { useUserSession } from '@/context/userSession';
+import Tracer from './Tracer';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const passedTime = (time: number) => {
@@ -139,6 +140,10 @@ function RecentUserOps(props: any) {
 
                 <div className={`${activeTab === 'logs' ? 'block' : 'hidden'}`}>
                     <UserOpLogs item={userOpsData?.[showUserOpId]} />
+                </div>
+
+                <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'}`}>
+                    <Tracer />
                 </div>
             </div>
         );
@@ -290,7 +295,7 @@ function RecentUserOps(props: any) {
                             <HeaderSection item={userOpsData?.[showUserOpId]} network={network} loading={tableLoading} />
                             <div className="mt-[28px] px-3 ">
                                 <div className="container px-0 ">
-                                    <div className="flex flex-row gap-[1rem]">
+                                    <div className="flex flex-row flex-wrap gap-[1rem]">
                                         <button
                                             onClick={() => handleTabChange('overview')}
                                             className={`py-2 px-4 rounded-[6px] ${
@@ -314,6 +319,14 @@ function RecentUserOps(props: any) {
                                             }`}
                                         >
                                             UserOp Logs
+                                        </button>
+                                        <button
+                                            onClick={() => handleTabChange('tracer')}
+                                            className={`py-2 px-4 rounded-[6px] ${
+                                                activeTab === 'tracer' ? 'bg-gray-800  text-white' : 'bg-gray-200'
+                                            }`}
+                                        >
+                                            Tracer
                                         </button>
                                     </div>
                                     <div className="mb-[2rem]">{renderContent()}</div>
