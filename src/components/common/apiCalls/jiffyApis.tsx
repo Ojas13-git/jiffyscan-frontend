@@ -380,6 +380,32 @@ export const getUserOpMetadata = async (userOpHash: string, network: string, toa
     return data;
 };
 
+export const getUsserOpTrace = async (userOpHash: string, network: string, toast: any): Promise<metadata> => {
+    // if (!performApiCall(network)) return {} as metadata;
+    if (network != 'mainnet') return {} as metadata;
+
+    let response;
+    try {
+        response = await fetch(`https://api-dev.jiffyscan.xyz/v0/getUsserOpTrace/?userOpHash=${userOpHash}&network=${network}`, {
+            method : 'GET',
+            headers: { 'x-api-key': 'gFQghtJC6F734nPaUYK8M3ggf9TOpojkbNTH9gR5' },
+        });
+
+    } catch (e) {
+        //alert(e.message)
+        showToast(toast, 'Error fetching metadata');
+        return {} as metadata;
+    }
+
+    if (response.status != 200) {
+        showToast(toast, 'Error fetching metadata');
+        return {} as metadata;
+    }
+    const data = await response.json();
+    
+    return data;
+};
+
 export const populateERC20TransfersWithTokenInfo = async (metaData: metadata): Promise<metadata> => {
     let populatedMetaData = metaData;
     await Promise.all(
@@ -625,6 +651,7 @@ export const getUserOp = async (userOpHash: string, toast: any, Authorization?: 
     }
     const data = await response.json();
     console.log("userop fetched :", data)
+    
     if ('userOps' in data) {
         // if (data.userOps.length == 0) {
         //     showToast(toast, 'Error fetching data');

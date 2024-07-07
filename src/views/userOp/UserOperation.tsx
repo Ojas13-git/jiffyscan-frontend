@@ -143,7 +143,7 @@ function RecentUserOps(props: any) {
                 </div>
 
                 <div className={`${activeTab === 'tracer' ? 'block' : 'hidden'}`}>
-                    <Tracer />
+                    <Tracer item={userOpsData?.[showUserOpId]} />
                 </div>
             </div>
         );
@@ -157,6 +157,7 @@ function RecentUserOps(props: any) {
     async function returnUserOpData(hash: string, toast: any) {
         let currentTime = new Date().getTime();
         let userOp = await getUserOp(hash, toast, '');
+        
         while (userOp.length === 0) {
             await sleep(1000);
             userOp = await getUserOp(hash, toast);
